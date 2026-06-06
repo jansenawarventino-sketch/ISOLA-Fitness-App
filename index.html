@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISOLA Fitness App</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    background-color: #030712; 
+    
+    /* Overlay gelap + Gambar */
+    background-image: linear-gradient(rgba(3, 7, 18, 0.85), rgba(3, 7, 18, 0.85)), 
+                      url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop');
+    
+    background-size: cover;        
+    background-position: center;   
+    
+    /* Ganti 'fixed' menjadi 'scroll' di sini */
+    background-attachment: scroll;  
+    
+    background-repeat: no-repeat;
+}
+
+
+        @keyframes bounce { 0%, 100__ { height: 6px; } 50% { height: 36px; } }
+        .bar { width: 3px; height: 10px; background-color: #10b981; }
+        .playing .bar:nth-child(1) { animation: bounce 0.8s infinite 0.1s; }
+        .playing .bar:nth-child(2) { animation: bounce 1.1s infinite 0.4s; }
+        .playing .bar:nth-child(3) { animation: bounce 0.9s infinite 0.2s; }
+        .playing .bar:nth-child(4) { animation: bounce 1.3s infinite 0.6s; }
+        .playing .bar:nth-child(5) { animation: bounce 1.0s infinite 0.3s; }
+
+        /* Animasi piringan musik berputar halus */
+        .music-disc-spin {
+            animation: spin 6s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <header class="w-full bg-slate-950/90 border-b border-slate-900 sticky top-0 z-50 px-6 py-4 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                <div>
+                    <h1 class="text-base font-extrabold text-white leading-none">ISOLA<span class="text-emerald-400 text-xs font-normal">.FITNESS</span></h1>
+                    <p class="text-[10px] text-slate-500 font-mono mt-0.5">ISOLA by Arventino</p>
+                </div>
+            </div>
+
+            <div class="relative">
+                <button id="menuBtn" class="w-10 h-10 rounded-full border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-all cursor-pointer">
+                    <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
+                </button>
+                
+                <div id="dropdownMenu" class="absolute right-0 top-12 w-52 rounded-xl border border-slate-800 bg-slate-950 p-1.5 shadow-2xl hidden z-50">
+                    <button onclick="navigateTo('home')" class="w-full flex items-center gap-3 px-4 py-3 text-xs text-slate-300 hover:bg-slate-900 rounded-lg text-left cursor-pointer"><i class="fa-solid fa-house text-emerald-400 w-4"></i> Homepage</button>
+                    <button onclick="navigateTo('ai-mode')" class="w-full flex items-center gap-3 px-4 py-3 text-xs text-slate-300 hover:bg-slate-900 rounded-lg text-left cursor-pointer"><i class="fa-solid fa-robot text-emerald-400 w-4"></i> AI Mode Scan</button>
+                    <button onclick="navigateTo('rhythm')" class="w-full flex items-center gap-3 px-4 py-3 text-xs text-slate-300 hover:bg-slate-900 rounded-lg text-left cursor-pointer"><i class="fa-solid fa-dumbbell text-emerald-400 w-4"></i> Rhythm Workout</button>
+                    <button onclick="navigateTo('music-center')" class="w-full flex items-center gap-3 px-4 py-3 text-xs text-slate-300 hover:bg-slate-900 rounded-lg text-left cursor-pointer"><i class="fa-solid fa-music text-emerald-400 w-4"></i> Music Center</button>
+                    <button onclick="navigateTo('download')" class="w-full flex items-center gap-3 px-4 py-3 text-xs text-emerald-400 hover:bg-emerald-500/10 rounded-lg font-bold text-left cursor-pointer"><i class="fa-solid fa-download w-4"></i> Download App</button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-6xl mx-auto px-6 py-8 flex flex-col justify-center">
+
+        <section id="page-home" class="view-page flex flex-col items-center text-center max-w-2xl mx-auto py-6">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-white mb-8 leading-tight tracking-tight">
+                Premium Workout Dashboard <br><span class="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Interactive Comfortable</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-2xl mt-2">
+                <button onclick="navigateTo('ai-mode')" class="p-4 rounded-xl border border-slate-800 bg-slate-950/80 hover:border-emerald-500/50 transition-all text-left cursor-pointer group">
+                    <i class="fa-solid fa-robot text-emerald-400 text-lg mb-2 block"></i>
+                    <span class="text-xs font-bold text-white block group-hover:text-emerald-400">Launch AI Mode</span>
+                    <span class="text-[10px] text-slate-500 block mt-0.5">Deteksi Postur & Kalori</span>
+                </button>
+                
+                <button onclick="navigateTo('rhythm')" class="p-4 rounded-xl border border-slate-800 bg-slate-950/80 hover:border-emerald-500/50 transition-all text-left cursor-pointer group">
+                    <i class="fa-solid fa-dumbbell text-emerald-400 text-lg mb-2 block"></i>
+                    <span class="text-xs font-bold text-white block group-hover:text-emerald-400">Rhythm Workout</span>
+                    <span class="text-[10px] text-slate-500 block mt-0.5">Khusus Pemutar Latihan</span>
+                </button>
+
+                <button onclick="navigateTo('music-center')" class="p-4 rounded-xl border border-slate-800 bg-slate-950/80 hover:border-emerald-500/50 transition-all text-left cursor-pointer group">
+                    <i class="fa-solid fa-music text-emerald-400 text-lg mb-2 block"></i>
+                    <span class="text-xs font-bold text-white block group-hover:text-emerald-400">Music Center</span>
+                    <span class="text-[10px] text-slate-500 block mt-0.5">Buka Pemutar Musik Premium</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="page-ai-mode" class="view-page hidden max-w-4xl mx-auto w-full grid md:grid-cols-12 gap-6">
+            <div class="md:col-span-7 bg-slate-950 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden h-80 shadow-2xl">
+                <div class="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
+                    <span class="text-[10px] bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-1 rounded-md font-mono flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> AI LIVE_CAM_FEED
+                    </span>
+                    <span id="aiAccuracy" class="text-[10px] bg-slate-900 text-slate-400 px-2 py-1 rounded-md font-mono">Accuracy: 0.0%</span>
+                </div>
+
+                <div class="my-auto flex flex-col items-center justify-center text-center">
+                    <div id="aiTargetCircle" class="w-20 h-20 rounded-full border-2 border-dashed border-slate-700 flex items-center justify-center transition-all">
+                        <i id="aiIconCenter" class="fa-solid fa-camera text-xl text-slate-600"></i>
+                    </div>
+                    <p id="aiStatusText" class="text-xs font-mono text-slate-500 mt-4 px-4">Kamera mati. Tekan tombol untuk menganalisis gerak tubuh.</p>
+                </div>
+
+                <button id="scanBtn" onclick="toggleAIScan()" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-xl transition-all uppercase tracking-wider cursor-pointer">
+                    Mulai Scan Postur Tubuh
+                </button>
+            </div>
+
+            <div class="md:col-span-5 flex flex-col gap-4">
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-2.5"><i class="fa-solid fa-calculator text-emerald-400 mr-1.5"></i>Kalkulator Kalori & Protein</h3>
+                    <div class="flex gap-2 mb-3">
+                        <input type="number" id="inputWeight" placeholder="Berat (kg)" class="w-1/2 bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                        <button onclick="calculateNutrition()" class="w-1/2 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-emerald-400 font-bold cursor-pointer transition-colors">Hitung Makro</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80 font-mono text-[11px]">
+                        <div><span class="text-slate-500 block text-[10px]">Kebutuhan Kalori:</span><span id="resCalori" class="text-white font-bold">- kcal</span></div>
+                        <div><span class="text-slate-500 block text-[10px]">Kebutuhan Protein:</span><span id="resProtein" class="text-emerald-400 font-bold">- gram</span></div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950/50 border border-slate-900 rounded-2xl p-4">
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-2">Target Otot Analisis</h3>
+                    <div class="grid grid-cols-2 gap-1.5">
+                        <button onclick="setTargetMuscle('Core Stability')" class="p-2 rounded-lg border border-slate-800 bg-slate-950 text-[11px] text-slate-400 font-medium hover:border-emerald-500 text-left transition-all cursor-pointer">Core Stability</button>
+                        <button onclick="setTargetMuscle('Chest Form')" class="p-2 rounded-lg border border-slate-800 bg-slate-950 text-[11px] text-slate-400 font-medium hover:border-emerald-500 text-left transition-all cursor-pointer">Chest Form</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-rhythm" class="view-page hidden max-w-5xl mx-auto w-full grid md:grid-cols-12 gap-6">
+            <div class="md:col-span-7 flex flex-col items-center bg-slate-950 border border-slate-900 p-6 rounded-2xl relative shadow-2xl">
+                <div class="absolute top-4 left-4 z-20">
+                    <div class="relative inline-block text-left">
+                        <button onclick="toggleRoutineMenu()" class="text-[10px] font-mono tracking-wider uppercase bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-1.5 rounded-lg flex items-center gap-1.5 hover:bg-emerald-500/20 cursor-pointer transition-all">
+                            <i class="fa-solid fa-bars-staggered"></i> <span id="activeRoutineLabel">CHEST & TRICEPS Paket</span>
+                        </button>
+                        <div id="routineDropdown" class="absolute left-0 mt-1 w-44 rounded-lg bg-slate-950 border border-slate-800 shadow-xl hidden py-1 z-30">
+                            <button onclick="switchRoutinePlaylist('chest')" class="w-full text-left px-3 py-2 text-[11px] text-slate-300 hover:bg-slate-900 hover:text-white block">Chest & Triceps</button>
+                            <button onclick="switchRoutinePlaylist('legs')" class="w-full text-left px-3 py-2 text-[11px] text-slate-300 hover:bg-slate-900 hover:text-white block">Legs & Glutes</button>
+                            <button onclick="switchRoutinePlaylist('core')" class="w-full text-left px-3 py-2 text-[11px] text-slate-300 hover:bg-slate-900 hover:text-white block">Core Stability</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-40 h-40 rounded-full bg-slate-900 border border-slate-800 flex flex-col items-center justify-center my-8 shadow-inner">
+                    <div id="equalizer" class="flex items-center gap-1 h-8 mb-2">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    </div>
+                    <div id="countdownTimer" class="text-3xl font-extrabold text-white font-mono">00:45</div>
+                </div>
+
+                <div class="text-center mb-4">
+                    <h3 id="currentWorkoutTitle" class="text-lg font-bold text-white tracking-tight">Standard Push-Ups</h3>
+                    <p id="currentWorkoutDesc" class="text-xs text-slate-500 mt-1 max-w-xs mx-auto">Jaga posisi punggung tetap lurus.</p>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button id="prevBtn" class="w-9 h-9 rounded-full border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center cursor-pointer"><i class="fa-solid fa-backward-step text-xs"></i></button>
+                    <button id="playBtn" class="w-12 h-12 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center shadow-lg cursor-pointer"><i id="playIcon" class="fa-solid fa-play text-xs ml-0.5"></i></button>
+                    <button id="nextBtn" class="w-9 h-9 rounded-full border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center cursor-pointer"><i class="fa-solid fa-forward-step text-xs"></i></button>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 flex flex-col h-[330px] bg-slate-950/30 border border-slate-900 rounded-2xl p-4">
+                <div id="playlistContainer" class="flex-1 overflow-y-auto custom-scroll space-y-2 pr-1"></div>
+            </div>
+        </section>
+
+        <section id="page-music-center" class="view-page hidden max-w-4xl mx-auto w-full grid md:grid-cols-12 gap-6">
+            <div class="md:col-span-7 bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center relative shadow-2xl">
+                <span class="absolute top-4 left-4 text-[10px] font-mono tracking-widest bg-teal-500/10 border border-teal-500/20 text-teal-400 px-2.5 py-1 rounded-md uppercase">AUDIO STATION</span>
+                
+                <div class="w-40 h-40 rounded-full bg-slate-900 border-4 border-slate-800 flex items-center justify-center my-6 shadow-2xl relative overflow-hidden p-1">
+                    <div id="albumDisc" class="w-full h-full rounded-full bg-gradient-to-tr from-slate-950 via-teal-950 to-slate-900 flex flex-col items-center justify-center relative">
+                        <div class="absolute inset-2 border border-slate-800/40 rounded-full"></div>
+                        <div class="absolute inset-5 border border-slate-800/30 rounded-full"></div>
+                        <div class="absolute inset-8 border border-slate-800/20 rounded-full"></div>
+                        <div class="w-10 h-10 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center z-10">
+                            <i class="fa-solid fa-compact-disc text-teal-400 text-sm"></i>
+                        </div>
+                        <div id="musicEqualizer" class="flex items-center gap-0.5 h-5 absolute bottom-6 opacity-80">
+                            <div class="w-[2px] h-2 bg-teal-400/80 bar"></div>
+                            <div class="w-[2px] h-2 bg-teal-400/80 bar"></div>
+                            <div class="w-[2px] h-2 bg-teal-400/80 bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 id="currentMusicTitle" class="text-base font-bold text-white">Phonk Workout Boost Volume.mp3</h3>
+                    <p class="text-[11px] text-slate-500 font-mono mt-0.5">ISOLA Audio Stream</p>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button onclick="prevMusic()" class="w-9 h-9 rounded-full border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center cursor-pointer"><i class="fa-solid fa-backward text-xs"></i></button>
+                    <button id="musicPlayBtn" onclick="toggleMusicPlay()" class="w-12 h-12 rounded-full bg-teal-500 text-slate-950 flex items-center justify-center shadow-lg cursor-pointer transition-transform hover:scale-105"><i id="musicPlayIcon" class="fa-solid fa-play text-xs ml-0.5"></i></button>
+                    <button onclick="nextMusic()" class="w-9 h-9 rounded-full border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center cursor-pointer"><i class="fa-solid fa-forward text-xs"></i></button>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 flex flex-col h-[320px] bg-slate-950/30 border border-slate-900 rounded-2xl p-4">
+                <div class="mb-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Daftar Lagu Pengiring</h4>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Klik langsung item track untuk memutar musik</p>
+                </div>
+                <div id="musicPlaylistContainer" class="flex-1 overflow-y-auto custom-scroll space-y-1.5 pr-1">
+                    </div>
+            </div>
+        </section>
+
+        <section id="page-download" class="view-page hidden max-w-2xl mx-auto w-full text-center py-6">
+            <div class="border border-slate-900 bg-slate-950 rounded-2xl p-8">
+                <h2 class="text-2xl font-bold text-white mb-2">Unduh Aplikasi Mobile</h2>
+                <p class="text-slate-500 text-xs mb-6">Pilih platform perangkat Anda untuk memulai sikronisasi data seluler.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-3">
+                    <button class="bg-slate-900 border border-slate-800 text-white py-2.5 px-5 rounded-xl flex items-center justify-center gap-3 cursor-pointer">
+                        <i class="fa-brands fa-apple text-lg"></i><span class="text-xs font-bold">App Store</span>
+                    </button>
+                    <button class="bg-slate-900 border border-slate-800 text-white py-2.5 px-5 rounded-xl flex items-center justify-center gap-3 cursor-pointer">
+                        <i class="fa-brands fa-google-play text-lg text-emerald-400"></i><span class="text-xs font-bold">Google Play</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full max-w-6xl mx-auto px-6 py-4 border-t border-slate-900 text-center text-[11px] text-slate-600">
+        &copy; 2026 ISOLA. Built exclusively by <span class="text-slate-400 font-bold">Arventino</span>. All rights reserved.
+    </footer>
+
+    <script>
+        const routineDatabases = {
+            chest: [
+                { id: 0, title: "Standard Push-Ups", duration: 45, desc: "Jaga posisi punggung tetap lurus dan turunkan dada perlahan." },
+                { id: 1, title: "Incline Diamond Push-Ups", duration: 40, desc: "Fokus kontraksi tumpuan pada triceps dan dada bagian dalam." }
+            ],
+            legs: [
+                { id: 0, title: "Bodyweight Squats", duration: 50, desc: "Turunkan pinggul sejajar lutut, beban di tumit kaki." },
+                { id: 1, title: "Lunges Alternating", duration: 45, desc: "Langkah kaki ke depan secara bergantian." }
+            ],
+            core: [
+                { id: 0, title: "Plank Hold Stability", duration: 60, desc: "Kunci bagian perut, posisikan siku sejajar tepat di bawah bahu." }
+            ]
+        };
+
+        const musicDatabase = [
+            { id: 0, title: "Lagu Good Vibes .mp3", duration: "2:45" , image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=500"},
+            { id: 1, title: "Lagu galau level max ultra.mp3", duration: "3:12" , image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgr7nTJDYpwzxhJQq9dl4sNyHKvzZXst567SIHhf_eAoB3s8W0Ko1gKQ7b9KhuyP3y6WpvfzH2o6X_NlF_hWDCezrSC4zKuE51msnzzInqn5xovRuO-YXK3i3adVIaWZf-e5il0TP0Lh5o/s1600/galau.jpg"},
+            { id: 2, title: "Lagu Tenang.mp3", duration: "2:58" , image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000&auto=format&fit=crop"},
+            { id: 3, title: "Lagu mood.mp3", duration: "4:05" , image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=500"}
+        ];
+
+        let activeKey = "chest";
+        let workoutRoutine = routineDatabases[activeKey];
+        let currentIndex = 0;
+        let musicIndex = 0;
+        
+        let timer = null;
+        let isPlaying = false;
+        let isMusicPlaying = false;
+        let aiScanning = false;
+        let aiInterval = null;
+        let currentSecondsLeft = workoutRoutine[currentIndex].duration;
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.view-page').forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('block', 'grid');
+            });
+            const target = document.getElementById(`page-${pageId}`);
+            if (pageId === 'rhythm' || pageId === 'ai-mode' || pageId === 'music-center') {
+                target.classList.remove('hidden');
+                target.classList.add('grid');
+            } else {
+                target.classList.remove('hidden');
+                target.classList.add('block');
+            }
+            document.getElementById('dropdownMenu').classList.add('hidden');
+        }
+
+        document.getElementById('menuBtn').addEventListener('click', (e) => {
+            document.getElementById('dropdownMenu').classList.toggle('hidden');
+            e.stopPropagation();
+        });
+        document.addEventListener('click', () => { 
+            document.getElementById('dropdownMenu').classList.add('hidden'); 
+            if(document.getElementById('routineDropdown')) {
+                document.getElementById('routineDropdown').classList.add('hidden');
+            }
+        });
+
+        function toggleRoutineMenu() {
+            document.getElementById('routineDropdown').classList.toggle('hidden');
+            event.stopPropagation();
+        }
+
+        function switchRoutinePlaylist(key) {
+            activeKey = key;
+            workoutRoutine = routineDatabases[key];
+            document.getElementById('activeRoutineLabel').innerText = key.toUpperCase() + " Paket";
+            document.getElementById('routineDropdown').classList.add('hidden');
+            selectWorkout(0);
+        }
+
+        function calculateNutrition() {
+            const weight = parseFloat(document.getElementById('inputWeight').value);
+            if (!weight || weight <= 0) {
+                alert("Masukkan data berat badan yang valid terlebih dahulu.");
+                return;
+            }
+            document.getElementById('resCalori').innerText = `${Math.round(weight * 33)} kcal`;
+            document.getElementById('resProtein').innerText = `${Math.round(weight * 2)} gram`;
+        }
+
+        function toggleAIScan() {
+            const btn = document.getElementById('scanBtn');
+            const targetCircle = document.getElementById('aiTargetCircle');
+            const iconCenter = document.getElementById('aiIconCenter');
+            const statusText = document.getElementById('aiStatusText');
+            const accuracyText = document.getElementById('aiAccuracy');
+
+            if (aiScanning) {
+                aiScanning = false;
+                btn.innerText = "Mulai Scan Postur Tubuh";
+                btn.className = "w-full py-3 bg-emerald-500 text-slate-950 font-bold text-xs rounded-xl cursor-pointer";
+                targetCircle.className = "w-20 h-20 rounded-full border-2 border-dashed border-slate-700 flex items-center justify-center";
+                iconCenter.className = "fa-solid fa-camera text-xl text-slate-600";
+                statusText.innerText = "Scanning dihentikan.";
+                accuracyText.innerText = "Accuracy: 0.0%";
+                clearInterval(aiInterval);
+            } else {
+                aiScanning = true;
+                btn.innerText = "Stop Scanning";
+                btn.className = "w-full py-3 bg-red-500 text-white font-bold text-xs rounded-xl cursor-pointer";
+                targetCircle.className = "w-20 h-20 rounded-full border-2 border-emerald-400 flex items-center justify-center animate-pulse bg-emerald-500/5";
+                iconCenter.className = "fa-solid fa-circle-notch text-xl text-emerald-400 animate-spin";
+                statusText.innerText = "Mendeteksi keselarasan postur sendi tubuh secara real-time...";
+                aiInterval = setInterval(() => {
+                    accuracyText.innerText = `Accuracy: ${(96 + Math.random() * 3).toFixed(1)}%`;
+                }, 800);
+            }
+        }
+
+        function setTargetMuscle(name) {
+            if(aiScanning) { document.getElementById('aiStatusText').innerText = `Target dialihkan ke analisis: ${name}.`; }
+        }
+
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const equalizer = document.getElementById('equalizer');
+        const timerDisplay = document.getElementById('countdownTimer');
+        const playlistContainer = document.getElementById('playlistContainer');
+
+        function renderPlaylist() {
+            playlistContainer.innerHTML = "";
+            workoutRoutine.forEach((item, index) => {
+                const isSelected = index === currentIndex;
+                playlistContainer.innerHTML += `
+                    <div onclick="selectWorkout(${index})" class="flex items-center justify-between p-3 rounded-xl border ${isSelected ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400' : 'border-slate-900 bg-slate-950/40 hover:bg-slate-900 text-slate-300'} transition-all cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-mono font-bold ${isSelected ? 'text-emerald-400' : 'text-slate-600'}">${index + 1}</span>
+                            <h4 class="text-xs font-bold">${item.title}</h4>
+                        </div>
+                        <span class="text-xs font-mono text-slate-500">${item.duration}s</span>
+                    </div>
+                `;
+            });
+        }
+
+        function updatePlayer() {
+            const current = workoutRoutine[currentIndex];
+            document.getElementById('currentWorkoutTitle').innerText = current.title;
+            document.getElementById('currentWorkoutDesc').innerText = current.desc;
+            if(!isPlaying) {
+                currentSecondsLeft = current.duration;
+                formatTime(currentSecondsLeft);
+            }
+            renderPlaylist();
+        }
+
+        function formatTime(s) {
+            timerDisplay.innerText = `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
+        }
+
+        function toggleWorkout() {
+            if (isPlaying) {
+                isPlaying = false;
+                playIcon.className = "fa-solid fa-play text-xs ml-0.5";
+                equalizer.classList.remove('playing');
+                clearInterval(timer);
+            } else {
+                isPlaying = true;
+                playIcon.className = "fa-solid fa-pause text-xs";
+                equalizer.classList.add('playing');
+                timer = setInterval(() => {
+                    if (currentSecondsLeft > 0) {
+                        currentSecondsLeft--;
+                        formatTime(currentSecondsLeft);
+                    } else {
+                        clearInterval(timer);
+                        isPlaying = false;
+                        if (currentIndex < workoutRoutine.length - 1) {
+                            currentIndex++;
+                            currentSecondsLeft = workoutRoutine[currentIndex].duration;
+                            updatePlayer();
+                            toggleWorkout();
+                        } else {
+                            alert("Selesai!");
+                            currentIndex = 0;
+                            updatePlayer();
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        function selectWorkout(idx) {
+            clearInterval(timer);
+            isPlaying = false;
+            playIcon.className = "fa-solid fa-play text-xs ml-0.5";
+            equalizer.classList.remove('playing');
+            currentIndex = idx;
+            currentSecondsLeft = workoutRoutine[currentIndex].duration;
+            updatePlayer();
+        }
+
+        const musicPlayIcon = document.getElementById('musicPlayIcon');
+        const musicEqualizer = document.getElementById('musicEqualizer');
+        const albumDisc = document.getElementById('albumDisc');
+        const musicPlaylistContainer = document.getElementById('musicPlaylistContainer');
+
+        function renderMusicPlaylist() {
+            musicPlaylistContainer.innerHTML = "";
+            musicDatabase.forEach((track, index) => {
+                const isSelected = index === musicIndex;
+                musicPlaylistContainer.innerHTML += `
+                    <div onclick="selectMusic(${index})" class="flex items-center justify-between p-3 rounded-xl border ${isSelected ? 'border-teal-500/30 bg-teal-500/10 text-teal-400' : 'border-slate-900 bg-slate-950/40 hover:bg-slate-900 text-slate-300'} transition-all cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid ${isSelected && isMusicPlaying ? 'fa-volume-high animate-pulse text-teal-400' : 'fa-music text-slate-600'} text-xs"></i>
+                            <h4 class="text-xs font-medium truncate max-w-[180px]">${track.title}</h4>
+                        </div>
+                        <span class="text-[11px] font-mono text-slate-500">${track.duration}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function updateMusicPlayer() {document.getElementById('currentMusicTitle').innerText = musicDatabase[musicIndex].title;
+    
+    // Ini bagian yang menghubungkan data ke tampilan piringan
+    const albumDisc = document.getElementById('albumDisc');
+    albumDisc.style.backgroundImage = `url('${musicDatabase[musicIndex].image}')`;
+    albumDisc.style.backgroundSize = 'cover';
+    albumDisc.style.backgroundPosition = 'center';
+    
+    renderMusicPlaylist();
+    }
+
+
+        function toggleMusicPlay() {
+            if (isMusicPlaying) {
+                isMusicPlaying = false;
+                musicPlayIcon.className = "fa-solid fa-play text-xs ml-0.5";
+                musicEqualizer.classList.remove('playing');
+                albumDisc.classList.remove('music-disc-spin');
+            } else {
+                isMusicPlaying = true;
+                musicPlayIcon.className = "fa-solid fa-pause text-xs";
+                musicEqualizer.classList.add('playing');
+                albumDisc.classList.add('music-disc-spin');
+            }
+            renderMusicPlaylist();
+        }
+
+        function selectMusic(idx) {
+            musicIndex = idx;
+            isMusicPlaying = true;
+            musicPlayIcon.className = "fa-solid fa-pause text-xs";
+            musicEqualizer.classList.add('playing');
+            albumDisc.classList.add('music-disc-spin');
+            updateMusicPlayer();
+        }
+
+        function nextMusic() {
+            musicIndex = (musicIndex + 1) % musicDatabase.length;
+            selectMusic(musicIndex);
+        }
+
+        function prevMusic() {
+            musicIndex = (musicIndex - 1 + musicDatabase.length) % musicDatabase.length;
+            selectMusic(musicIndex);
+        }
+
+        playBtn.addEventListener('click', toggleWorkout);
+        document.getElementById('prevBtn').addEventListener('click', () => { if (currentIndex > 0) selectWorkout(currentIndex - 1); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if (currentIndex < workoutRoutine.length - 1) selectWorkout(currentIndex + 1); });
+
+        updatePlayer();
+        updateMusicPlayer();
+    </script>
+</body>
+</html>
+
+
